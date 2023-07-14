@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        body {
+            margin: 50px;
+            padding: 50px;
+            background-color: aqua;
+        }
+
+        p {
+            margin: auto;
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 450px;
+            color: white;
+        }
+
+        input {
+            border: 0;
+            margin: auto;
+            font-size: 100px;
+            width: 75%;
+            padding: 125px;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="search" name="search" placeholder="Enter city location here...">
+    <p></p>
+    <script>
+        const search = document.getElementById('search');
+        const weather = document.querySelector('p');
+        search.addEventListener('change', calc);
+
+        const degrees = new Intl.NumberFormat('en-US', {
+            style: 'unit',
+            unit: 'fahrenheit',
+        });
+
+        function calc(e) {
+            value = e.target.value;
+            if (search.value != null) {
+                fetch(`https://api.weatherapi.com/v1/current.json?key=df1e2cf7817147d5a89195103231307&q=${search.value}`, { mode: 'cors' })
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (response) {
+                        weather.innerText = degrees.format(parseFloat(response.current.temp_f));
+                    });
+            }
+        }
+
+    </script>
+</body>
+
+</html>
