@@ -7,11 +7,12 @@
             margin: 50px;
             padding: 50px;
             background-color: aqua;
+            font-family: Helvetica, Arial, sans-serif;
         }
 
         p {
             margin: auto;
-            font-family: Helvetica, Arial, sans-serif;
+            
             font-size: 450px;
             color: white;
         }
@@ -19,9 +20,20 @@
         input {
             border: 0;
             margin: auto;
-            font-size: 100px;
+            font-size: 65px;
             width: 75%;
-            padding: 125px;
+            padding: 30px;
+        }
+
+        h1 {
+            padding-top: 100px;
+            padding-bottom: 10px;
+            font-size: 50px;
+            color: white;
+        }
+
+        #searchesDone p {
+            font-size: 16px;
         }
     </style>
     <meta charset="UTF-8">
@@ -34,6 +46,12 @@
 <body>
     <input type="text" id="search" name="search" placeholder="Enter city location here...">
     <p></p>
+    <div id="searchesDone">
+        <h1>Searches Done By Others</h1>
+
+    </div>
+
+
     <script type="module">
         // Import the functions you need from the SDKs you need
         // import firebase from "./firebase/compat/app";
@@ -62,11 +80,11 @@
         const analytics = getAnalytics(app);
         const db = getFirestore(app);
 
-        import { collection, addDoc, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+        import { collection, addDoc, doc, setDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
         const search = document.getElementById('search');
         const weather = document.querySelector('p');
-        
+
         search.addEventListener('change', calc);
         const degrees = new Intl.NumberFormat('en-US', {
             style: 'unit',
@@ -90,6 +108,20 @@
                     });
             }
         }
+
+
+
+        const querySnapshot = await getDocs(collection(db, "searches"));
+        querySnapshot.forEach((doc) => {
+            // doc.data() is never undefined for query doc snapshots
+            console.log(doc.id, " => ", doc.data());
+            const para = document.createElement("p");
+            const node = document.createTextNode(doc.data().name + ' ' + doc.data().temperature);
+            para.appendChild(node);
+
+            const element = document.getElementById("searchesDone");
+            element.appendChild(para);
+        });
 
     </script>
 </body>
