@@ -37,7 +37,6 @@
 
         .forecast {
             display: flex;
-            justify-content: space-around;
             margin-top: 20px;
         }
 
@@ -72,6 +71,20 @@
             font-size: 22px;
             color: brown;
         }
+
+        #gpsButton {
+            border-radius: 10px;
+            background-color: azure;
+            padding: 30px 30px;
+            color:violet;
+            border: 0;
+            font-size: 30px;
+        }
+
+        .btn {
+            margin: 30px;
+            font-size: larger;
+        }
     </style>
     <meta charset="UTF-8">
     <script src="https://www.gstatic.com/firebasejs/10.0.0/firebase-app-compat.js"></script>
@@ -82,7 +95,7 @@
 
 <body>
     <input type="text" id="search" name="search" placeholder="Enter city location here...">
-    <button id="gpsButton">Use GPS Location</button>
+    <p class="btn"><button id="gpsButton">Get GPS Location</button></p>
     <p id="currentWeather"></p>
     <div id="forecast" class="forecast"></div>
     <div id="searchesDone">
