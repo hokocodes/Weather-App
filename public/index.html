@@ -123,11 +123,15 @@
 
         const YOUR_API_KEY = 'Ps8KKnB8c0WpnOtEATgQ0KE6fJhuA1JC';
 
-        async function fetchWeather(location) {
-            if (location) {
+        async function fetchWeather(location, locationKey = null) {
+            if (location || locationKey) {
                 try {
-                    const locationKey = await getLocationKey(location);
-                    const response = await fetch(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${locationKey}?apikey=${YOUR_API_KEY}`, { mode: 'cors' });
+                    if (location) {
+                        location = await getLocationKey(location);
+                    } else {
+                        location = locationKey;
+                    }
+                    const response = await fetch(`http://dataservice.accuweather.com/forecasts/v1/daily/5day/${location}?apikey=${YOUR_API_KEY}`, { mode: 'cors' });
                     if (!response.ok) {
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
@@ -150,6 +154,8 @@
         async function getLocationKey(location) {
             try {
                 const response = await fetch(`http://dataservice.accuweather.com/locations/v1/cities/search?apikey=${YOUR_API_KEY}&q=${location}`, { mode: 'cors' });
+                console.log(await response);
+                console.log(await response.json());
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -192,7 +198,7 @@
                 }
                 const data = await response.json();
                 const locationKey = data.Key;
-                fetchWeather(locationKey);
+                fetchWeather(null, locationKey);
             } catch (error) {
                 console.error('Error fetching weather by coordinates:', error);
             }
