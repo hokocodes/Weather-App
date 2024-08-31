@@ -126,7 +126,7 @@
         const weather = document.getElementById("currentWeather");
         const forecastDiv = document.getElementById('forecast');
 
-        search.addEventListener('change', () => fetchWeather(search.value));
+        search.addEventListener('change', () => fetchWeather(search.value, null));
         gpsButton.addEventListener('click', getLocation);
 
         const degrees = new Intl.NumberFormat('en-US', {
@@ -167,11 +167,11 @@
         async function getLocationKey(location) {
             try {
                 const response = await fetch(`http://dataservice.accuweather.com/locations/v1/cities/search?apikey=${YOUR_API_KEY}&q=${location}`, { mode: 'cors' });
-                console.log(await response);
-                console.log(await response.json());
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+                // console.log(await response);
+                // console.log(await response.json());
+                // if (!response.ok) {
+                //     throw new Error(`HTTP error! status: ${response.status}`);
+                // }
                 const data = await response.json();
                 return data[0].Key;
             } catch (error) {
